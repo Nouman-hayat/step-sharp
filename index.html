@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style media="screen">
+
+      body{
+        background-color:#F8F9FE;
+      }
+      .container-fluid{
+        margin-top:1%;
+      }
+      .card{
+        margin-top:1%;
+        border-radius: 10px;
+      }
+      main{
+        max-width:80%;
+        margin:0 auto;
+      }
+      textarea:focus{
+      outline: none !important;
+      border-color: #719ECE;
+      box-shadow: 0 0 10px #719ECE;
+      }
+      textarea{
+        display:block;
+        margin:0 auto;
+        border-radius: 10px;
+        border:1px solid #FAFAFA;
+        background-color:#FAFAFA;
+        width:100% !important;
+        padding:10px;
+        padding-right: 25px;
+      }
+      .mybtn{
+        width:100%;
+        border-radius: 10px;
+      }
+      #downloadbtn{
+        width:100%;
+        border-radius: 10px;
+      }
+      .clipboard{
+        margin-bottom:90px;
+        width:100%;
+        border-radius: 10px;
+      }
+
+      .message{
+        border-radius:10px;
+      }
+      .text-filter{
+        position: relative;
+      }
+      .icon-position{
+        position: absolute;
+        right: 5px;
+        top: 8px;
+        padding: 4px;
+      }
+      .img-fluid{
+        width: 25%;
+      }
+      @media (min-width: 768px) and (max-width:992px){
+        .img-fluid{
+        width: 30%;
+      }
+      
+      }
+
+       @media (min-width: 575px) and (max-width:767px){
+        .img-fluid{
+        width: 50%;
+      }}
+       @media (min-width: 315px) and (max-width:500px){
+        .img-fluid{
+        width: 50%;
+      }
+      .row{
+       flex-direction: column;
+      } 
+      .row .col-8 {
+    flex: 0 0 auto;
+    width: 80.666667%;
+    margin: 0 auto;
+      }
+    }
+    </style>
+  </head>
+  <body>
+<div class="container-fluid">
+
+
+
+
+ <div class="text-center">
+            <img src="logo/logo-h.png" alt="" class="img-fluid" width="100%">
+          </div>
+ 
+
+
+   <div class="row">
+        <div class="col-2 col-md-4 col-sm-3">
+
+        </div>
+        <div class="col-8 col-md-4 col-sm-6">
+          <ul class="nav nav-pills mb-3 mt-4" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Filter</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Search and Filter</button>
+    </li>
+  </ul>
+         
+        </div>
+        <div class="col-2 col-md-4 col-sm-3">
+
+        </div>
+      </div>
+
+
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+      <div class="row">
+        <div class="col-2 col-md-4 col-sm-3">
+
+        </div>
+        <div class="col-8 col-md-4 col-sm-6">
+         
+          <div class="card">
+            <div class="card-body">
+              <div class="main">
+                <!-- <div class="text-center">
+                  <iframe height="100" src="https://embed.lottiefiles.com/animation/58303"></iframe>
+                </div> -->
+                <h5 class="text-center">Enter Data to filter</h5>
+                <br>
+                <div class="text-filter">
+                  <textarea name="name" rows="4" id="mytext" placeholder="Paste here..."></textarea>
+                  <i class="bi bi-clipboard icon-position" id="copytoclipboard1" onclick="copytoclipboard(event)"></i>
+                </div>
+                
+                <div class="total_records mt-3">
+<b>Total Records: </b>
+                </div>
+                <div class="after_filter">
+<b>After Filter: </b>
+                </div>
+                
+                <button type="button" name="button" onclick="doFilter()" class="btn btn-primary mt-3 mybtn">Filter</button>
+                <button type="button" name="button" onclick="doDownload()" class="btn btn-success mt-3" id="downloadbtn">Download</button>
+                
+              </div>
+              <input type="hidden" id="success" name="" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="col-2 col-md-4 col-sm-3">
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="modal" id="mymodal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Download CSV</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <input type="text" id="mytotal" class="mytotal last" onchange="add_row(this.value)" name="" value="">
+              <input type="hidden" id="filtered" name="" value="">
+              <div id="record_rows">
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="downloadCsv()">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-2 col-md-3 col-sm-3">
+
+          </div>
+          <div class="col-8 col-md-6 col-sm-6">
+           
+            <div class="card">
+              <div class="card-body">
+                <div class="main">
+                  <!-- <div class="text-center">
+                    <iframe height="100" src="https://embed.lottiefiles.com/animation/58303"></iframe>
+                  </div> -->
+                  <h5 class="">Search and Filter</h5>
+                  <br>
+                  
+
+                  <div class="text-filter">
+                  <textarea name="name" rows="4" id="enter_all_data" placeholder="Enter all data"></textarea>
+                  <i class="bi bi-clipboard icon-position" id="copytoclipboard2" onclick="copytoclipboard2()"></i>
+                </div>
+                  <br>
+                 
+
+                    <div class="text-filter">
+                   <textarea name="name" rows="4" id="filter_this" placeholder="Filter this"></textarea>
+                  <i class="bi bi-clipboard icon-position" id="copytoclipboard3" onclick="copytoclipboard3()"></i>
+                </div>
+                  <b>Total Records: <span id="entered"></span></b>
+                  <br>
+                  <b>After Filter:  <span id="after_filter"></span></b>
+                  <button type="button" name="button" onclick="doFilter2()" class="btn btn-primary mt-3 mybtn" >Filter</button>
+                    <button type="button" name="button" onclick="doDownload2()" class="btn btn-success mt-3" id="downloadbtn">Download</button>
+                  <button type="button" name="button" onclick="clear2()" class="btn btn-info mt-3 mybtn" >Clear</button>
+             
+                </div>
+                <input type="hidden" id="success" name="" value="0">
+              </div>
+            </div>
+          </div>
+          <div class="col-2 col-md-3 col-sm-3">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  </body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+
+
+  function reset_rows()
+  {
+    $("#record_rows").html("");
+    $("#mytotal").val($("#filtered").val());
+  }
+
+  function doDownload()
+  {
+    reset_rows();
+    $("#mymodal").modal('show');
+  }
+
+   function doDownload2()
+  {
+    reset_rows();
+    $("#mymodal").modal('show');
+  }
+    var texts = [];
+  function doFilter(){
+    $(".message").html('');
+    $(".total_records").html('');
+    $(".after_filter").html('');
+    if($("#success").val() == 1)
+    {
+      $("#mybtn").text('Filter');
+      $("#success").val(0);
+      $("#mytext").val('');
+      return;
+    }
+    var lines = $("#mytext").val().split(/\n/);
+    if((lines.length == 0 || lines.length == 1) && lines[0] == '')
+    {
+      $(".message").html('<div class="alert alert-danger">No data found to filter!</div>');
+      $(".total_records").html('<b>Total Records: 0</b>');
+      $(".after_filter").html('<b>After Filter: 0</b>');
+      return;
+    }
+    var total_records = 0;
+    for (var i=0; i < lines.length; i++)
+    {
+      if(lines[i] != '')
+      {
+        total_records++;
+      }
+      // only push this line if it contains a non whitespace character.
+      if (/\S/.test(lines[i])) {
+          var final = $.trim(lines[i].substr(lines[i].length - 9));
+        final = final.replace(/\D/g, '');
+        if(!texts.includes(final) && final.length == 9 && final.charAt(0) == 4)
+        {
+          texts.push("+61".concat(final));
+        }
+      }
+    }
+    $("#mytext").val(texts.join("\n"));
+    var copyText = $("#mytext").val();
+    navigator.clipboard.writeText(copyText);
+    $("#mybtn").text('Click to clear');
+    $(".message").html('<div class="alert alert-success">Text copied to the clipboard!</div>');
+    $(".total_records").html('<b>Total Records: </b>'+total_records);
+    $(".after_filter").html('<b>After Filter: </b>'+texts.length);
+    $("#mytotal").val(texts.length);
+    $("#filtered").val(texts.length);
+    $("#success").val(1);
+  }
+
+
+  function add_row(myval)
+  {
+      var filtered = $("#filtered").val();
+      var total_records = 0;
+      $(".mytotal").each(function(){
+        total_records += parseInt($(this).val());
+        $(this).removeClass('last');
+      });
+      if(total_records > filtered)
+      {
+        reset_rows();
+        return;
+      }
+      var remaining_records = filtered-total_records;
+      $("#record_rows").append('<input type="text" onchange="add_row(this.value)" class="mt-3 mytotal last" name="" value="'+remaining_records+'"><br/>');
+
+      $(".mytotal").each(function(){
+        if($(this).val() == "" || $(this).val() == 'NaN')
+        {
+          $(this).remove();
+        }
+      });
+      var total_records = 0;
+      $(".mytotal").each(function(){
+        total_records += parseInt($(this).val());
+      });
+      if(total_records != filtered)
+      {
+        reset_rows();
+        return;
+      }
+  }
+
+ function downloadCsv(){
+   texts;
+   start_index = 0;
+   end_records = 0;
+
+   $(".mytotal").each(function(){
+     var csv_records = $(this).val();
+     end_records = parseInt(end_records) + parseInt(csv_records);
+     console.log('start = '+start_index+' end = '+end_records);
+     rows = texts.slice(start_index, end_records);
+     let csvContent = "";
+     rows.forEach(function(row) {
+         csvContent += row + ",\r\n";
+     });
+
+     var hiddenElement = document.createElement('a');
+         hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+         hiddenElement.target = '_blank';
+
+         hiddenElement.download = Math.random()+".csv";
+         hiddenElement.click();
+         start_index = parseInt(end_records);
+   });
+     reset_rows();
+ }
+
+
+
+
+ 
+ function copytoclipboard()
+ {
+ var copyclipboard1=document.getElementById('copytoclipboard1')
+  copyclipboard1.classList.remove("bi-clipboard")
+   copyclipboard1.classList.add("bi-check2")
+   var copyText = $("#mytext").val();
+   navigator.clipboard.writeText(copyText);
+   setTimeout(function(){
+copyclipboard1.classList.remove("bi-check2")
+   copyclipboard1.classList.add("bi-clipboard")
+   },2000)
+ }
+// bi-clipboard-check
+
+ function doFilter2()
+ {
+   var lines = $("#enter_all_data").val().split(/\n/);
+   var excl = $("#filter_this").val().split(/\n/);
+   var prev_length = lines.length;
+   $("#entered").text(lines.length);
+   lines = lines.filter(val => !excl.includes(val));
+   var new_length = lines.length;
+   if(prev_length != new_length)
+   {
+     $("#after_filter").text(lines.length);
+     $("#enter_all_data").val(lines.join('\r\n'));
+   }
+ }
+
+ function copytoclipboard2()
+ {
+   var copyclipboard2=document.getElementById('copytoclipboard2')
+  copyclipboard2.classList.remove("bi-clipboard")
+   copyclipboard2.classList.add("bi-check2")
+
+   var copyText = $("#enter_all_data").val();
+   navigator.clipboard.writeText(copyText);
+
+setTimeout(function(){
+copyclipboard2.classList.remove("bi-check2")
+   copyclipboard2.classList.add("bi-clipboard")
+   },2000)
+
+
+
+   
+
+ }
+
+  function copytoclipboard3()
+ {
+var copyclipboard3=document.getElementById('copytoclipboard3')
+  copyclipboard3.classList.remove("bi-clipboard")
+   copyclipboard3.classList.add("bi-check2")
+
+   var copyText = $("#filter_this").val();
+   navigator.clipboard.writeText(copyText);
+
+   setTimeout(function(){
+copyclipboard3.classList.remove("bi-check2")
+   copyclipboard3.classList.add("bi-clipboard")
+   },2000)
+ }
+
+ function clear2()
+ {
+   $("#filter_this").val("");
+   $("#enter_all_data").val("");
+ }
+</script>
