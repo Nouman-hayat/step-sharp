@@ -302,14 +302,14 @@ justify-content: center;
    
     var texts = [];
   function doFilter(){
-    $(".message").html('');
-    $(".total_records").html('');
-    $(".after_filter").html('');
+    // $(".message").html('');
+    // $(".total_records").html('');
+    // $(".after_filter").html('');
     if($("#success").val() == 1)
     {
       $("#mybtn").text('Filter');
       $("#success").val(0);
-      $("#mytext").val('');
+      // $("#mytext").val('');
       return;
     }
     var lines = $("#mytext").val().split(/\n/);
@@ -337,7 +337,7 @@ justify-content: center;
         }
       }
     }
-    $("#mytext").val(texts.join("\n"));
+    // $("#mytext").val(texts.join("\n"));
     var copyText = $("#mytext").val();
     navigator.clipboard.writeText(copyText);
     $("#mybtn").text('Click to clear');
@@ -471,6 +471,8 @@ copyclipboard3.classList.remove("bi-check2")
  function clear1()
  {
    $("#mytext").val("");
+     $(".total_records").html('<b>Total Records: </b>');
+    $(".after_filter").html('<b>After Filter: </b>');
    
  }
 
